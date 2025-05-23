@@ -21,12 +21,14 @@ while True:
     if prompt.lower() in ("quit","exit"):
         break
 
+    # Use the history and specify the attention mask
     inputs = tokenizer(prompt + tokenizer.eos_token, return_tensors="pt", padding=True)
     new_ids = inputs["input_ids"].to(model.device)
     attention_mask = inputs["attention_mask"].to(model.device)
 
     bot_input = torch.cat([chat_history_ids, new_ids], dim=-1) if chat_history_ids is not None else new_ids
 
+    # Options for tweaking model
     chat_history_ids = model.generate(
         bot_input,
         attention_mask=attention_mask,
@@ -38,6 +40,6 @@ while True:
         pad_token_id=tokenizer.eos_token_id,
     )
 
-
+    # Print response
     reply = tokenizer.decode(chat_history_ids[:, bot_input.shape[-1]:][0], skip_special_tokens=True)
     print("Bot:", reply)

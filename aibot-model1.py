@@ -15,16 +15,14 @@ while True:
     if user_input.lower() in ["exit", "quit"]:
         break
 
-    # Encode the user input + add end-of-string token
     new_input_ids = tokenizer.encode(user_input + tokenizer.eos_token, return_tensors='pt')
 
-    # Append to chat history
+    # Use the history
     bot_input_ids = torch.cat([chat_history_ids, new_input_ids], dim=-1) if step > 0 else new_input_ids
 
-    # Prepare attention mask
     attention_mask = torch.ones(bot_input_ids.shape, dtype=torch.long)
 
-    # Generate a response with attention mask
+    # Options for tweaking model
     chat_history_ids = model.generate(
         bot_input_ids,
         attention_mask=attention_mask,
@@ -39,7 +37,7 @@ while True:
     )
 
 
-    # Decode and print the response
+    # Printing the AI response
     response = tokenizer.decode(chat_history_ids[:, bot_input_ids.shape[-1]:][0], skip_special_tokens=True)
     print(f"Bot: {response}")
     step += 1
