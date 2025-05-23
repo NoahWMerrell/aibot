@@ -41,7 +41,6 @@ I found these websites useful in developing this software:
 * [Python](https://www.python.org/)
 * [Pip Installation](https://pip.pypa.io/en/stable/installation/)
 * [ChatGPT](https://chatgpt.com/) (Was especially helpful for getting things started with this assignment)
-*
 
 ## Future Work
 
